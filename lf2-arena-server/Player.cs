@@ -6,6 +6,11 @@ namespace lf2_arena_server
   {
     private TcpClient _client;
     private string _name;
-    
+
+    public Player(TcpClient client, string name)
+    {
+      _client = client;
+      _name = name;
+    }
   }
 }

@@ -40,14 +40,36 @@ namespace lf2_arena_server
       Console.WriteLine("hello " + ipEndPoint.Address
                                  + ":" + ipEndPoint.Port);
 
+      Player player;
+      while (true)
+      {
+        // register or login with username and password
+        var messageStr = MessageArena.ReceiveString(streamLf2);
+        Console.WriteLine(messageStr);
+        var pieces = messageStr.Split('\t');
 
-      var messageStr = MessageArena.ReceiveString(streamLf2);
-      Console.WriteLine(messageStr);
+        string registResult;
+        if (pieces[0] == "register")
+        {
+          registResult = Authentication.Register(pieces[1], pieces[2]);
+        }
+        else
+        {
+          registResult = Authentication.Login(pieces[1], pieces[2]);
+        }
+
+        MessageArena.Send(streamLf2, registResult);
+        if (registResult != "success")
+          continue;
+        player = new Player(client, pieces[1]);
+        break;
+      }
       
+      // send list of rooms or players event based
+      // until user decides to join or create a room
+      
+
       MessageArena.Send(streamLf2, "wow şğüİçö");
-
-      //Verify password
-
 
 //      using(var db = new LiteDatabase(@"MyData.db"))
 //      {
@@ -80,7 +102,7 @@ namespace lf2_arena_server
 
       client.Close();
       Console.WriteLine("bye " + ipEndPoint.Address
-                                 + ":" + ipEndPoint.Port);
+                               + ":" + ipEndPoint.Port);
     }
   }
 }

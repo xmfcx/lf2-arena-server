@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arena.cs" />
+    <Compile Include="Authentication.cs" />
     <Compile Include="MessageArena.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
